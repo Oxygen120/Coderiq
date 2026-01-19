@@ -17,6 +17,12 @@
         .tech-card { transition: all 0.4s ease; border: 1px solid rgba(255, 255, 255, 0.08); }
         .tech-card:hover { border-color: #3b82f6; background: rgba(59, 130, 246, 0.05); transform: translateY(-5px); }
         .wa-themed { background: linear-gradient(135deg, #3b82f6, #1e40af); box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3); }
+        
+        /* New FAQ Styles */
+        .faq-item { border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+        .faq-item.active .faq-answer { max-height: 200px; padding-bottom: 20px; }
+        .faq-item.active i { transform: rotate(180deg); }
     </style>
 </head>
 <body>
@@ -29,12 +35,17 @@
     <nav class="fixed w-full z-50 p-6">
         <div class="container mx-auto glass rounded-2xl px-8 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <img src="assets/logo.png" alt="Logo" class="h-8">
-                <span class="text-xl font-black italic uppercase tracking-tighter">CODERIQ</span>
-            </div>
+    <span class="text-xl md:text-2xl font-black italic uppercase tracking-tighter text-white flex items-center">
+        CODERIQ<span class="gradient-blue italic inline-block pr-2 ml-1">.IN</span>
+    </span>
+</div>
+
+
+
             <div class="flex items-center gap-6">
                 <div class="hidden lg:flex gap-8 text-[10px] font-bold uppercase tracking-widest text-gray-400">
                     <a href="#about" class="hover:text-blue-500">Why Rafiq</a>
+                    <a href="#portfolio" class="hover:text-blue-500">Work</a>
                     <a href="#specialization" class="hover:text-blue-500">Expertise</a>
                     <a href="#pricing" class="hover:text-blue-500">Investment</a>
                 </div>
@@ -47,11 +58,27 @@
     </nav>
 
     <section class="min-h-screen flex flex-col items-center justify-center text-center px-6 pt-20">
+        <div class="flex items-center justify-center gap-2 mb-4">
+    <span class="relative flex h-2 w-2">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+    </span>
+    <span class="text-[9px] text-green-500 font-bold uppercase tracking-[0.3em]">Taking projects for 2026</span>
+</div>
+
         <div class="mb-4 inline-block px-4 py-1 rounded-full border border-blue-500/30 text-[10px] text-blue-400 font-bold uppercase tracking-widest">Independent Systems Developer</div>
-        <h1 class="text-6xl md:text-9xl font-black mb-6 tracking-tighter uppercase">
-            <span class="lang-en active-lang">Engineering Trust, <br><span class="gradient-blue italic">Building Systems.</span></span>
-            <span class="lang-hi font-sans text-5xl md:text-7xl italic">भरोसेमंद कोडिंग, <br><span class="gradient-blue italic">मजबूत सिस्टम।</span></span>
-        </h1>
+        <h1 class="text-5xl md:text-9xl font-black mb-6 tracking-tight uppercase leading-[0.9] px-4">
+    <span class="lang-en active-lang">
+        Engineering Trust, <br>
+        <span class="gradient-blue italic inline-block pr-6 pb-2">Building Systems.</span>
+    </span>
+    
+    <span class="lang-hi font-sans text-5xl md:text-7xl italic leading-tight">
+        भरोसेमंद कोडिंग, <br>
+        <span class="gradient-blue italic inline-block pb-2">मजबूत सिस्टम।</span>
+    </span>
+</h1>
+
         <p class="text-gray-400 max-w-3xl text-lg font-light mb-10 leading-relaxed">
             <span class="lang-en active-lang">I am <span class="text-white font-bold underline decoration-blue-500">Mohammad Rafiq</span>. I build proprietary digital architectures for businesses that need speed, security, and precision. No agencies, just direct expertise.</span>
             <span class="lang-hi font-sans">मैं हूँ <span class="text-white font-bold underline decoration-blue-500">मोहम्मद रफ़ीक</span>। मैं आपके बिज़नेस के लिए पावरफुल सॉफ्टवेयर और हाई-परफॉरमेंस डिजिटल सिस्टम बनाता हूँ।</span>
@@ -61,7 +88,26 @@
         </button>
     </section>
 
-    <section id="about" class="py-24 px-6 bg-[#080808] border-y border-white/5">
+     <section class="py-10 px-6">
+    <div class="container mx-auto max-w-3xl">
+        <div class="bg-[#0f0f0f] border border-white/10 rounded-xl overflow-hidden shadow-2xl">
+            <div class="bg-white/5 px-4 py-2 flex gap-2 border-b border-white/5">
+                <div class="w-2 h-2 rounded-full bg-red-500"></div>
+                <div class="w-2 h-2 rounded-full bg-yellow-500"></div>
+                <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                <span class="text-[9px] text-gray-500 ml-2 font-mono uppercase tracking-widest">system_core.log</span>
+            </div>
+            <div class="p-6 font-mono text-[11px] md:text-sm text-blue-400 leading-relaxed">
+                <p><span class="text-gray-500">>>></span> Initializing proprietary_logic.sys</p>
+                <p class="text-green-500"><span class="text-gray-500">>>></span> Security protocols: <span class="italic text-white">ACTIVE (AES-256)</span></p>
+                <p><span class="text-gray-500">>>></span> Database synchronization: <span class="text-white italic text-white">SUCCESS</span></p>
+                <p class="animate-pulse"><span class="text-gray-500">>>></span> System status: <span class="text-white">OPTIMIZED_FOR_SCALE_</span></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="about" class="py-24 px-6 bg-[#080808] border-y border-white/5">
         <div class="container mx-auto max-w-6xl">
             <h2 class="text-3xl font-black mb-16 text-center italic uppercase tracking-widest text-blue-500">The Freelancer Advantage</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -79,6 +125,126 @@
                     <i class="fas fa-shield-alt text-2xl mb-6 text-blue-500"></i>
                     <h3 class="font-bold mb-4 italic uppercase">Custom Security</h3>
                     <p class="text-gray-500 text-sm">No shared vulnerabilities. Custom-built logic means your data is safe from common template hacks.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 px-6 relative overflow-hidden bg-[#050505]">
+    <div class="absolute right-[-5%] top-[10%] opacity-[0.03] pointer-events-none">
+        <i class="fas fa-shield-virus text-[500px] text-blue-500"></i>
+    </div>
+
+    <div class="container mx-auto max-w-6xl relative z-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <div>
+                <h2 class="text-3xl font-black mb-6 italic uppercase tracking-widest text-blue-500">Security-First <br> Approach</h2>
+                <p class="text-gray-400 text-sm mb-8 leading-relaxed">Har system ko military-grade security standards ke saath build kiya jata hai taaki aapka data hamesha mehfooz rahe.</p>
+                
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="flex items-center gap-4 p-5 glass rounded-2xl border border-white/5 hover:border-blue-500/30 transition-all">
+                        <i class="fas fa-user-shield text-blue-500 text-xl"></i>
+                        <div>
+                            <span class="text-[10px] uppercase font-bold tracking-widest block text-white">Brute-Force Protection</span>
+                            <span class="text-[9px] text-gray-500 uppercase">Automatic bot blocking</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 p-5 glass rounded-2xl border border-white/5 hover:border-blue-500/30 transition-all">
+                        <i class="fas fa-lock text-blue-500 text-xl"></i>
+                        <div>
+                            <span class="text-[10px] uppercase font-bold tracking-widest block text-white">End-to-End Encryption</span>
+                            <span class="text-[9px] text-gray-500 uppercase">AES-256 Standard</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 p-5 glass rounded-2xl border border-white/5 hover:border-blue-500/30 transition-all">
+                        <i class="fas fa-code-branch text-blue-500 text-xl"></i>
+                        <div>
+                            <span class="text-[10px] uppercase font-bold tracking-widest block text-white">Zero-Vulnerability Code</span>
+                            <span class="text-[9px] text-gray-500 uppercase">Hand-written logic</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hidden md:flex justify-center relative">
+                <div class="absolute inset-0 bg-blue-500/10 blur-[120px] rounded-full"></div>
+                <div class="glass p-12 rounded-[50px] border-blue-500/20 shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-700">
+                    <i class="fas fa-shield-halved text-[120px] text-blue-500"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+    <section class="py-12 border-b border-white/5 overflow-hidden">
+    <div class="container mx-auto px-6">
+        <p class="text-[10px] text-gray-500 uppercase tracking-[0.5em] text-center mb-10 font-bold">Powering Systems With</p>
+        
+        <div class="relative flex overflow-x-hidden">
+            <div class="flex animate-marquee whitespace-nowrap gap-16 md:gap-24 items-center opacity-40">
+                <i class="fab fa-react text-4xl hover:text-blue-500 transition-colors" title="React"></i>
+                <i class="fab fa-node-js text-4xl hover:text-green-500 transition-colors" title="Node.js"></i>
+                <i class="fab fa-python text-4xl hover:text-yellow-500 transition-colors" title="Python"></i>
+                <i class="fab fa-js text-4xl hover:text-yellow-400 transition-colors" title="JavaScript"></i>
+                <i class="fas fa-database text-4xl hover:text-blue-400 transition-colors" title="SQL/NoSQL"></i>
+                <i class="fab fa-aws text-4xl hover:text-orange-400 transition-colors" title="AWS"></i>
+                <i class="fab fa-git-alt text-4xl hover:text-red-500 transition-colors" title="Git"></i>
+                <i class="fab fa-docker text-4xl hover:text-blue-600 transition-colors" title="Docker"></i>
+                
+                <i class="fab fa-react text-4xl hover:text-blue-500 transition-colors"></i>
+                <i class="fab fa-node-js text-4xl hover:text-green-500 transition-colors"></i>
+                <i class="fab fa-python text-4xl hover:text-yellow-500 transition-colors"></i>
+                <i class="fab fa-js text-4xl hover:text-yellow-400 transition-colors"></i>
+                <i class="fas fa-database text-4xl hover:text-blue-400 transition-colors"></i>
+                <i class="fab fa-aws text-4xl hover:text-orange-400 transition-colors"></i>
+                <i class="fab fa-git-alt text-4xl hover:text-red-500 transition-colors"></i>
+                <i class="fab fa-docker text-4xl hover:text-blue-600 transition-colors"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    @keyframes marquee {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+        display: flex;
+        width: max-content;
+        animation: marquee 25s linear infinite;
+    }
+    /* Mouse le jane par animation ruk jayegi */
+    .animate-marquee:hover {
+        animation-play-state: paused;
+    }
+</style>
+
+
+
+    <section id="portfolio" class="py-24 px-6 container mx-auto">
+        <h2 class="text-4xl font-black mb-16 italic uppercase text-center tracking-widest text-blue-500">Selected Work</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            <div class="glass rounded-[40px] overflow-hidden group border border-white/5">
+                <div class="h-64 bg-zinc-900 flex items-center justify-center group-hover:bg-blue-900/20 transition-all">
+                    <i class="fas fa-chart-line text-6xl text-blue-500/20 group-hover:scale-110 transition-transform"></i>
+                </div>
+                <div class="p-8">
+                    <h3 class="text-xl font-bold uppercase italic mb-2">Inventory Logic System</h3>
+                    <p class="text-gray-500 text-xs uppercase tracking-widest mb-4">Custom Admin Panel • Real-time DB</p>
+                    <p class="text-gray-400 text-sm leading-relaxed">Automated supply chain management for a local manufacturing unit. Zero-latency updates across 5 locations.</p>
+                </div>
+            </div>
+            <div class="glass rounded-[40px] overflow-hidden group border border-white/5">
+                <div class="h-64 bg-zinc-900 flex items-center justify-center group-hover:bg-blue-900/20 transition-all">
+                    <i class="fas fa-laptop-code text-6xl text-blue-500/20 group-hover:scale-110 transition-transform"></i>
+                </div>
+                <div class="p-8">
+                    <h3 class="text-xl font-bold uppercase italic mb-2">Proprietary SaaS UI</h3>
+                    <p class="text-gray-500 text-xs uppercase tracking-widest mb-4">React • Tailwind • High Speed</p>
+                    <p class="text-gray-400 text-sm leading-relaxed">A specialized dashboard for lead tracking with a 98/100 Google Lighthouse speed score.</p>
                 </div>
             </div>
         </div>
@@ -115,6 +281,88 @@
             </div>
         </div>
     </section>
+
+
+    <section class="py-20 bg-blue-600/5">
+    <div class="container mx-auto px-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div>
+                <p class="text-4xl font-black text-blue-500 tracking-tighter">&lt;2s</p>
+                <p class="text-[10px] uppercase text-gray-500 mt-2 font-bold tracking-widest">Load Speed</p>
+            </div>
+            <div>
+                <p class="text-4xl font-black text-blue-500 tracking-tighter">99.9%</p>
+                <p class="text-[10px] uppercase text-gray-500 mt-2 font-bold tracking-widest">System Uptime</p>
+            </div>
+            <div>
+                <p class="text-4xl font-black text-blue-500 tracking-tighter">100%</p>
+                <p class="text-[10px] uppercase text-gray-500 mt-2 font-bold tracking-widest">Clean Architecture</p>
+            </div>
+            <div>
+                <p class="text-4xl font-black text-blue-500 tracking-tighter">24/7</p>
+                <p class="text-[10px] uppercase text-gray-500 mt-2 font-bold tracking-widest">Direct Support</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-24 px-6 bg-[#030303]">
+    <div class="container mx-auto max-w-6xl">
+        <h2 class="text-3xl font-black mb-16 text-center italic uppercase tracking-widest text-blue-500">The Workflow</h2>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="p-8 glass rounded-3xl relative overflow-hidden">
+                <span class="absolute -right-4 -top-4 text-6xl font-black text-white/5 italic">01</span>
+                <h4 class="font-bold mb-4 uppercase text-sm text-blue-400">Architecture</h4>
+                <p class="text-gray-500 text-[11px] leading-relaxed">Mapping out the entire data flow and security protocols before a single line is written.</p>
+            </div>
+            <div class="p-8 glass rounded-3xl relative overflow-hidden">
+                <span class="absolute -right-4 -top-4 text-6xl font-black text-white/5 italic">02</span>
+                <h4 class="font-bold mb-4 uppercase text-sm text-blue-400">Core Coding</h4>
+                <p class="text-gray-500 text-[11px] leading-relaxed">Writing proprietary logic from scratch. No heavy templates, just high-performance code.</p>
+            </div>
+            <div class="p-8 glass rounded-3xl relative overflow-hidden">
+                <span class="absolute -right-4 -top-4 text-6xl font-black text-white/5 italic">03</span>
+                <h4 class="font-bold mb-4 uppercase text-sm text-blue-400">Stress Test</h4>
+                <p class="text-gray-500 text-[11px] leading-relaxed">Simulation of high traffic and security attacks to ensure your system never fails.</p>
+            </div>
+            <div class="p-8 glass rounded-3xl relative overflow-hidden">
+                <span class="absolute -right-4 -top-4 text-6xl font-black text-white/5 italic">04</span>
+                <h4 class="font-bold mb-4 uppercase text-sm text-blue-400">Deployment</h4>
+                <p class="text-gray-500 text-[11px] leading-relaxed">Optimizing for the cloud and going live with real-time monitoring enabled.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+     <section class="py-24 px-6 border-y border-white/5">
+    <div class="container mx-auto max-w-6xl">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-blue-600/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-blue-500/20">
+                    <i class="fas fa-microchip text-blue-500 text-xl"></i>
+                </div>
+                <h4 class="font-bold uppercase text-xs tracking-widest mb-3">Custom Logic</h4>
+                <p class="text-gray-500 text-[10px] leading-relaxed italic">No WordPress. No templates. Built with raw, high-performance logic.</p>
+            </div>
+            <div class="text-center">
+                <div class="w-16 h-16 bg-blue-600/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-blue-500/20">
+                    <i class="fas fa-bolt text-blue-500 text-xl"></i>
+                </div>
+                <h4 class="font-bold uppercase text-xs tracking-widest mb-3">Speed First</h4>
+                <p class="text-gray-500 text-[10px] leading-relaxed italic">Systems designed to load in under 1.5s, guaranteed for SEO dominance.</p>
+            </div>
+            <div class="text-center">
+                <div class="w-16 h-16 bg-blue-600/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-blue-500/20">
+                    <i class="fas fa-headset text-blue-500 text-xl"></i>
+                </div>
+                <h4 class="font-bold uppercase text-xs tracking-widest mb-3">Direct Connect</h4>
+                <p class="text-gray-500 text-[10px] leading-relaxed italic">You talk to the engineer, not a manager. Instant support 24/7.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
 
     <section id="pricing" class="py-24 px-6 bg-[#080808] border-t border-white/5">
         <div class="container mx-auto">
@@ -167,6 +415,37 @@
         </div>
     </section>
 
+     <section class="py-32 px-6 text-center">
+    <div class="container mx-auto max-w-4xl">
+        <h2 class="text-5xl md:text-7xl font-black mb-8 italic uppercase tracking-tighter">Ready to <br> <span class="gradient-blue">Automate?</span></h2>
+        <p class="text-gray-500 mb-12 text-lg">Don't settle for slow websites. Get a high-performance system built for your specific business needs.</p>
+        <button onclick="toggleModal()" class="bg-white text-black px-12 py-5 rounded-full font-black uppercase text-xs tracking-[0.3em] hover:bg-blue-500 hover:text-white transition-all shadow-2xl">
+            Book a Technical Call
+        </button>
+    </div>
+</section>
+
+
+    <section class="py-24 px-6 container mx-auto max-w-4xl">
+        <h2 class="text-2xl font-black mb-12 italic uppercase tracking-widest text-blue-500 text-center">Frequently Asked</h2>
+        <div class="space-y-4">
+            <div class="faq-item glass p-6 rounded-2xl cursor-pointer" onclick="this.classList.toggle('active')">
+                <div class="flex justify-between items-center">
+                    <h4 class="text-sm font-bold uppercase tracking-tight">Do you provide hosting?</h4>
+                    <i class="fas fa-chevron-down text-blue-500 transition-transform"></i>
+                </div>
+                <div class="faq-answer mt-4 text-xs text-gray-500 leading-relaxed">Yes, I help with domain setup and high-speed cloud hosting as part of the technical consultation.</div>
+            </div>
+            <div class="faq-item glass p-6 rounded-2xl cursor-pointer" onclick="this.classList.toggle('active')">
+                <div class="flex justify-between items-center">
+                    <h4 class="text-sm font-bold uppercase tracking-tight">What is "Manual Code"?</h4>
+                    <i class="fas fa-chevron-down text-blue-500 transition-transform"></i>
+                </div>
+                <div class="faq-answer mt-4 text-xs text-gray-500 leading-relaxed">It means I don't use WordPress or generic builders. Your system is written from scratch, making it unhackable and 10x faster.</div>
+            </div>
+        </div>
+    </section>
+
     <footer class="py-12 border-t border-white/5 bg-[#030303] text-center">
         <p class="text-[10px] text-gray-700 uppercase tracking-[0.5em] mb-4 font-black italic">Mohammad Rafiq • Independent Developer</p>
         <div class="flex justify-center gap-6 mb-4 text-gray-600">
@@ -214,4 +493,3 @@
     </script>
 </body>
 </html>
-
