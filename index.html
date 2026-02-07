@@ -58,8 +58,16 @@
                     <a href="#pricing" class="hover:text-blue-500">Investment</a>
                 </div>
                 <div class="flex bg-white/10 rounded-lg p-1 text-[10px] font-bold">
-                    <button onclick="setLang('en')" id="btn-en" class="px-3 py-1 rounded bg-blue-600 text-white transition">EN</button>
-                    <button onclick="setLang('hi')" id="btn-hi" class="px-3 py-1 rounded transition text-gray-400">HI</button>
+                    <button 
+  onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
+  id="btn-top" 
+  class="group flex items-center justify-center w-7 h-7 rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition-all duration-300 shadow-lg active:scale-90"
+  title="Go to Top"
+>
+  <span class="flex items-center justify-center font-mono font-bold text- [5px] leading-none group-hover:-translate-y-1 transition-transform">
+    &lt;/&gt;
+  </span>
+</button>
                 </div>
             </div>
         </div>
@@ -81,10 +89,6 @@
         <span class="gradient-blue italic inline-block pr-6 pb-2">Building Systems.</span>
     </span>
 
-    <span class="lang-hi font-sans text-5xl md:text-7xl italic leading-tight">
-        भरोसेमंद कोडिंग, <br>
-        <span class="gradient-blue italic inline-block pb-2">मजबूत सिस्टम।</span>
-    </span>
 </h1>
 
         <p class="text-gray-400 max-w-3xl text-lg font-light mb-10 leading-relaxed">
