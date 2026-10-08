@@ -30,13 +30,21 @@ export default async function handler(req, res) {
         ? "91" + phoneDigits
         : phoneDigits;
 
+    const whatsappFields = [];
+
+    if (ticket_id) whatsappFields.push(`🎫 *Inquiry ID:* ${ticket_id}`);
+    if (project_type) whatsappFields.push(`💻 *Project:* ${project_type}`);
+    if (budget) whatsappFields.push(`💰 *Budget:* ${budget}`);
+    if (deadline) whatsappFields.push(`⏱️ *Timeline:* ${deadline}`);
+
+    const whatsappDetails = whatsappFields.length
+      ? whatsappFields.join("\n") + "\n\n"
+      : "";
+
     const whatsappMessage =
       `Hello ${name || "there"},\n\n` +
       `This is *CoderIQ* regarding your recent project inquiry.\n\n` +
-      `🎫 *Inquiry ID:* ${ticket_id || "N/A"}\n` +
-      `💻 *Project:* ${project_type || "Not specified"}\n` +
-      `💰 *Budget:* ${budget || "Not specified"}\n` +
-      `⏱️ *Timeline:* ${deadline || "Not specified"}\n\n` +
+      whatsappDetails +
       `We’ve received your requirements and would be happy to discuss your project further.\n\n` +
       `Please let us know a convenient time to connect.\n\n` +
       `*Regards,*\n` +
