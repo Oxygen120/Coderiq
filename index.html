@@ -437,7 +437,61 @@
 
 
 
-    <section id="pricing" class="py-24 px-6 bg-[#080808] border-t border-white/5">
+    <!-- CODERIQ SMART TOOLS -->
+<section id="smart-tools" class="py-24 px-6 border-y border-white/5 bg-[#050505]">
+  <div class="container mx-auto max-w-6xl">
+    <div class="text-center mb-14">
+      <p class="text-[10px] text-blue-500 uppercase tracking-[0.4em] font-bold mb-3">Smart Project Tools</p>
+      <h2 class="text-4xl md:text-5xl font-black italic uppercase tracking-tight">Plan Your <span class="gradient-blue">Project.</span></h2>
+      <p class="text-gray-500 text-sm mt-4 max-w-2xl mx-auto">Estimate your project cost or describe your idea and get an instant direction before submitting your inquiry.</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <!-- COST CALCULATOR -->
+      <div class="glass rounded-[32px] p-7 md:p-10 border-white/10">
+        <div class="flex items-center gap-3 mb-8">
+          <div class="w-11 h-11 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center"><i class="fas fa-calculator text-blue-500"></i></div>
+          <div><h3 class="font-bold uppercase italic">Project Cost Calculator</h3><p class="text-[9px] text-gray-500 uppercase tracking-widest">Instant estimate</p></div>
+        </div>
+        <div class="space-y-4">
+          <select id="calc-project" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none text-white text-sm">
+            <option value="7999">Landing Page — ₹7,999</option>
+            <option value="14999">Business Website — ₹14,999</option>
+            <option value="24999">Web Application — ₹24,999</option>
+            <option value="39999">Custom Software — ₹39,999</option>
+          </select>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <label class="flex items-center gap-3 p-4 bg-white/5 rounded-xl text-xs cursor-pointer"><input type="checkbox" class="calc-addon accent-blue-500" value="5000"> Admin Panel <span class="ml-auto text-gray-500">+₹5k</span></label>
+            <label class="flex items-center gap-3 p-4 bg-white/5 rounded-xl text-xs cursor-pointer"><input type="checkbox" class="calc-addon accent-blue-500" value="3000"> Database <span class="ml-auto text-gray-500">+₹3k</span></label>
+            <label class="flex items-center gap-3 p-4 bg-white/5 rounded-xl text-xs cursor-pointer"><input type="checkbox" class="calc-addon accent-blue-500" value="2500"> Payments <span class="ml-auto text-gray-500">+₹2.5k</span></label>
+            <label class="flex items-center gap-3 p-4 bg-white/5 rounded-xl text-xs cursor-pointer"><input type="checkbox" class="calc-addon accent-blue-500" value="3000"> Automation <span class="ml-auto text-gray-500">+₹3k</span></label>
+            <label class="flex items-center gap-3 p-4 bg-white/5 rounded-xl text-xs cursor-pointer"><input type="checkbox" class="calc-addon accent-blue-500" value="2000"> Authentication <span class="ml-auto text-gray-500">+₹2k</span></label>
+            <label class="flex items-center gap-3 p-4 bg-white/5 rounded-xl text-xs cursor-pointer"><input type="checkbox" class="calc-addon accent-blue-500" value="4000"> API Integration <span class="ml-auto text-gray-500">+₹4k</span></label>
+          </div>
+          <div class="mt-7 p-6 rounded-2xl bg-blue-600/10 border border-blue-500/20 text-center">
+            <p class="text-[9px] text-gray-500 uppercase tracking-widest mb-2">Estimated Starting Cost</p>
+            <p id="calc-total" class="text-4xl font-black text-blue-400">₹7,999</p>
+            <p class="text-[9px] text-gray-600 mt-2">Final quote depends on exact requirements.</p>
+          </div>
+          <button onclick="openInquiryFromTool('calculator')" class="w-full py-4 bg-blue-600 rounded-xl font-bold uppercase text-[10px] tracking-widest hover:bg-blue-500 transition">Request This Project</button>
+        </div>
+      </div>
+
+      <!-- AI CONSULTANT -->
+      <div class="glass rounded-[32px] p-7 md:p-10 border-white/10">
+        <div class="flex items-center gap-3 mb-8">
+          <div class="w-11 h-11 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center"><i class="fas fa-robot text-blue-500"></i></div>
+          <div><h3 class="font-bold uppercase italic">AI Project Consultant</h3><p class="text-[9px] text-gray-500 uppercase tracking-widest">Instant project guidance</p></div>
+        </div>
+        <textarea id="ai-project-input" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl h-36 outline-none focus:border-blue-500 text-white text-sm resize-none" placeholder="Example: I need a website for my clothing business with online orders, payments and an admin panel..."></textarea>
+        <button id="ai-consult-btn" onclick="runProjectConsultant()" class="w-full mt-4 py-4 border border-blue-500/30 rounded-xl font-bold uppercase text-[10px] tracking-widest hover:bg-blue-600 transition">Analyze My Project</button>
+        <div id="ai-consult-result" class="hidden mt-5 p-5 rounded-2xl bg-white/5 border border-white/10 text-sm"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing" class="py-24 px-6 bg-[#080808] border-t border-white/5">
     <div class="container mx-auto">
         <h2 class="text-4xl font-black mb-16 italic uppercase text-center tracking-widest text-blue-500" data-aos="fade-down">
             Investment Plans
@@ -559,6 +613,18 @@
                 <input type="email" name="email" placeholder="Email Address" required class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none focus:border-blue-500 text-white text-sm transition-all">
                 <input type="tel" name="phone" placeholder="Mobile Number" required class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none focus:border-blue-500 text-white text-sm transition-all">
             </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <select name="project_type" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none focus:border-blue-500 text-white text-sm">
+                    <option value="">Project Type</option><option>Landing Page</option><option>Business Website</option><option>Web Application</option><option>Admin Panel / Dashboard</option><option>Custom Software</option><option>Automation / API</option><option>Other</option>
+                </select>
+                <select name="budget" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none focus:border-blue-500 text-white text-sm">
+                    <option value="">Approx. Budget</option><option>Under ₹10,000</option><option>₹10,000 – ₹25,000</option><option>₹25,000 – ₹50,000</option><option>₹50,000+</option><option>Not Sure</option>
+                </select>
+            </div>
+            <select name="deadline" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none focus:border-blue-500 text-white text-sm">
+                <option value="">Required Timeline</option><option>Urgent — Under 7 days</option><option>1–2 Weeks</option><option>2–4 Weeks</option><option>1–2 Months</option><option>Flexible</option>
+            </select>
             
             <textarea name="message" placeholder="Describe your business technical needs..." required class="w-full bg-white/5 border border-white/10 p-4 rounded-xl h-32 outline-none focus:border-blue-500 text-white text-sm resize-none transition-all"></textarea>
             
@@ -611,6 +677,52 @@
 
     function closeSuccess() {
         document.getElementById('success-modal').style.display = 'none';
+    }
+
+    // Smart Project Tools
+    function updateProjectEstimate() {
+        const base = Number(document.getElementById("calc-project").value || 0);
+        const addons = [...document.querySelectorAll(".calc-addon:checked")].reduce((sum, el) => sum + Number(el.value), 0);
+        document.getElementById("calc-total").textContent = "₹" + (base + addons).toLocaleString("en-IN");
+    }
+    document.addEventListener("change", function(e) {
+        if(e.target.id === "calc-project" || e.target.classList.contains("calc-addon")) updateProjectEstimate();
+    });
+
+    function openInquiryFromTool(source) {
+        const calc = document.getElementById("calc-total")?.textContent || "";
+        toggleModal();
+        const msg = document.querySelector('#contact-form textarea[name="message"]');
+        if(msg && source === "calculator") msg.value = "I used the CoderIQ Project Cost Calculator. Estimated starting cost: " + calc + ". I would like to discuss the exact requirements.";
+    }
+
+    function runProjectConsultant() {
+        const input = document.getElementById("ai-project-input");
+        const result = document.getElementById("ai-consult-result");
+        const text = (input.value || "").trim().toLowerCase();
+        if(!text) {
+            result.classList.remove("hidden");
+            result.innerHTML = '<p class="text-blue-400 font-bold">Please describe your project first.</p>';
+            return;
+        }
+        const tags = [];
+        if(/shop|store|ecommerce|product|order|clothing|fashion|cart|online/.test(text)) tags.push("E-commerce / Online Ordering");
+        if(/admin|dashboard|staff|inventory|management|panel/.test(text)) tags.push("Admin Dashboard");
+        if(/payment|razorpay|upi|checkout/.test(text)) tags.push("Payment Integration");
+        if(/login|user|customer|account|auth/.test(text)) tags.push("Authentication");
+        if(/automation|whatsapp|telegram|api|notification/.test(text)) tags.push("Automation / API Integration");
+        if(/database|supabase|data|ledger|report/.test(text)) tags.push("Database & Data Management");
+        if(/website|landing|portfolio|company|business/.test(text)) tags.push("Business Website");
+        if(!tags.length) tags.push("Custom Web Solution");
+
+        let complexity = tags.length >= 5 ? "Advanced" : tags.length >= 3 ? "Intermediate" : "Standard";
+        let range = tags.length >= 5 ? "₹35,000+" : tags.length >= 3 ? "₹20,000 – ₹35,000" : "₹7,999 – ₹20,000";
+        result.classList.remove("hidden");
+        result.innerHTML = '<div class="flex justify-between gap-4 mb-3"><span class="text-gray-400">Recommended solution</span><strong class="text-white text-right">Custom Web System</strong></div>' +
+          '<div class="mb-3"><span class="text-gray-400 block mb-2">Detected requirements</span><div class="flex flex-wrap gap-2">' + tags.map(t => '<span class="text-[9px] uppercase tracking-wider px-2 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">' + t + '</span>').join("") + '</div></div>' +
+          '<div class="flex justify-between gap-4 mb-3"><span class="text-gray-400">Complexity</span><strong class="text-blue-400">' + complexity + '</strong></div>' +
+          '<div class="flex justify-between gap-4"><span class="text-gray-400">Typical starting range</span><strong class="text-blue-400">' + range + '</strong></div>' +
+          '<button onclick="openInquiryFromTool("ai")" class="w-full mt-5 py-3 bg-white text-black rounded-xl font-bold uppercase text-[9px] tracking-widest hover:bg-blue-500 hover:text-white transition">Discuss This Project</button>';
     }
 
     // 3. MAIN FORM LOGIC (Email + Telegram)
