@@ -43,7 +43,17 @@ export default async function handler(req, res) {
     }
     globalThis.__coderIqRateLimit.set(clientIp, now);
 
-    const { name: safeName, email: safeEmail, phone: safePhone, project_type: safeProjectType, budget: safeBudget, deadline: safeDeadline, message: safeMessage, ticket_id: safeTicketId } = lead;
+    const {
+      name: safeName,
+      email: safeEmail,
+      phone: safePhone,
+      project_type: safeProjectType,
+      budget: safeBudget,
+      deadline: safeDeadline,
+      message: safeMessage,
+      ticket_id: safeTicketId
+    } = lead;
+
     const botToken = process.env.TELEGRAM_BOT_TOKEN;
     const chatId = "752458612";
 
@@ -80,20 +90,46 @@ export default async function handler(req, res) {
       ? whatsappFields.join("\n") + "\n\n"
       : "";
 
-    const whatsappMessage =
+    const whatsappBase =
       `Hello ${safeName || "there"},\n\n` +
       `This is *CoderIQ* regarding your recent project inquiry.\n\n` +
-      whatsappDetails +
-      `We’ve received your requirements and would be happy to discuss your project further.\n\n` +
-      `Please let us know a convenient time to connect.\n\n` +
-      `*Regards,*\n` +
-      `*CoderIQ.IN*\n` +
-      `Web • Apps • Digital Solutions`;
+      whatsappDetails;
 
-    const whatsappUrl =
+    const whatsappTemplates = {
+      initial:
+        whatsappBase +
+        `We’ve received your requirements and would be happy to discuss your project further.\n\n` +
+        `Please let us know a convenient time to connect.\n\n` +
+        `*Regards,*\n*CoderIQ.IN*\nWeb • Apps • Digital Solutions`,
+
+      requirements:
+        whatsappBase +
+        `We’d like to understand your requirements a little better so we can suggest the right solution.\n\n` +
+        `Please share any additional features, references, or specific requirements you have in mind.\n\n` +
+        `*Regards,*\n*CoderIQ.IN*`,
+
+      quote:
+        whatsappBase +
+        `We wanted to follow up regarding your project inquiry and the quotation.\n\n` +
+        `Please let us know if you have any questions about the pricing, features, or timeline.\n\n` +
+        `*Regards,*\n*CoderIQ.IN*`,
+
+      closing:
+        whatsappBase +
+        `We’re ready to move forward with your project whenever you are. 🤝\n\n` +
+        `If everything looks good, please confirm and we can proceed with the next steps.\n\n` +
+        `*Regards,*\n*CoderIQ.IN*`
+    };
+
+    const whatsappUrl = (messageText) =>
       whatsappPhone.length >= 10
-        ? `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(whatsappMessage)}`
+        ? `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(messageText)}`
         : null;
+
+    const initialUrl = whatsappUrl(whatsappTemplates.initial);
+    const requirementsUrl = whatsappUrl(whatsappTemplates.requirements);
+    const quoteUrl = whatsappUrl(whatsappTemplates.quote);
+    const closingUrl = whatsappUrl(whatsappTemplates.closing);
 
     const telegramResponse = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
       method: "POST",
@@ -105,9 +141,22 @@ export default async function handler(req, res) {
         reply_markup: {
           inline_keyboard: [
             [
-              whatsappUrl
-                ? { text: "💬 WhatsApp Contact", url: whatsappUrl }
-                : { text: "💬 WhatsApp Contact", callback_data: "contact:No valid phone number" },
+              initialUrl
+                ? { text: "💬 Initial Contact", url: initialUrl }
+                : { text: "💬 Initial Contact", callback_data: "contact:No valid phone number" },
+              requirementsUrl
+                ? { text: "📋 Requirements", url: requirementsUrl }
+                : { text: "📋 Requirements", callback_data: "contact:No valid phone number" }
+            ],
+            [
+              quoteUrl
+                ? { text: "💰 Quote Follow-up", url: quoteUrl }
+                : { text: "💰 Quote Follow-up", callback_data: "contact:No valid phone number" },
+              closingUrl
+                ? { text: "🤝 Closing", url: closingUrl }
+                : { text: "🤝 Closing", callback_data: "contact:No valid phone number" }
+            ],
+            [
               { text: "📧 Email", callback_data: "email:" + (safeEmail || "No Email") }
             ],
             [
