@@ -757,26 +757,38 @@
                 ticket_id: ticketId 
             };
 
-            emailjs.send('service_ln9l0th', 'template_4myhwtk', templateParams)
-            .then(function() {
-                fetch("/api/telegram", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(templateParams)
-                }).catch(function(error) {
-                    console.error("Telegram notification failed:", error);
-                });
+            // Telegram notification is independent from EmailJS.
+            // This ensures a lead still reaches Telegram even if the confirmation email fails.
+            const telegramPromise = fetch("/api/telegram", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(templateParams)
+            }).then(function(response) {
+                if(!response.ok) throw new Error("Telegram server returned " + response.status);
+                return response.json();
+            });
 
-                if(typeof toggleModal === "function") toggleModal();
-                document.getElementById('display-ticket').innerHTML = ticketId;
-                document.getElementById('success-modal').style.display = 'flex';
-                btn.innerHTML = "SUBMIT SYSTEM REQUEST";
-                btn.disabled = false;
-                contactForm.reset();
-            }, function(error) {
-                alert("Error: " + error.text);
-                btn.innerHTML = "RETRY REQUEST";
-                btn.disabled = false;
+            const emailPromise = emailjs.send('service_ln9l0th', 'template_4myhwtk', templateParams);
+
+            Promise.allSettled([telegramPromise, emailPromise]).then(function(results) {
+                const telegramOk = results[0].status === "fulfilled" && results[0].value?.success !== false;
+                const emailOk = results[1].status === "fulfilled";
+
+                if(!telegramOk) console.error("Telegram notification failed:", results[0].reason || results[0].value);
+                if(!emailOk) console.error("EmailJS confirmation failed:", results[1].reason);
+
+                if(telegramOk || emailOk) {
+                    if(typeof toggleModal === "function") toggleModal();
+                    document.getElementById('display-ticket').innerHTML = ticketId;
+                    document.getElementById('success-modal').style.display = 'flex';
+                    btn.innerHTML = "SUBMIT SYSTEM REQUEST";
+                    btn.disabled = false;
+                    contactForm.reset();
+                } else {
+                    alert("Unable to submit the inquiry. Please try again.");
+                    btn.innerHTML = "RETRY REQUEST";
+                    btn.disabled = false;
+                }
             });
         });
     }
