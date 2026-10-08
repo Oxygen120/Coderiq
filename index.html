@@ -45,8 +45,8 @@
     /* Animation Base Logic */
     html { scroll-behavior: smooth; }
     
-    /* GSAP Initial State */
-    .reveal-item { opacity: 0; transform: translateY(30px); }
+    /* GSAP Initial State - fail-safe: content remains visible if GSAP fails */
+    .reveal-item { opacity: 1; transform: translateY(0); }
 
     /* Mouse Glow Effect Background */
     #bg-glow { 
