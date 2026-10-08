@@ -19,13 +19,33 @@ export default async function handler(req, res) {
     const data = String(callback.data || "");
     const message = callback.message;
 
-    if (!message || !data.startsWith("reviewed:")) {
+    if (!message) {
+      return res.status(200).json({ ok: true });
+    }
+
+    const chatId = message.chat.id;
+    const messageId = message.message_id;
+
+    if (data.startsWith("contact:") || data.startsWith("email:")) {
+      const value = data.slice(data.indexOf(":") + 1);
+      const label = data.startsWith("contact:") ? "Phone" : "Email";
+      await fetch(`https://api.telegram.org/bot${botToken}/answerCallbackQuery`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          callback_query_id: callbackId,
+          text: `${label}: ${value}`,
+          show_alert: true
+        })
+      });
+      return res.status(200).json({ ok: true });
+    }
+
+    if (!data.startsWith("reviewed:")) {
       return res.status(200).json({ ok: true });
     }
 
     const ticketId = data.slice("reviewed:".length);
-    const chatId = message.chat.id;
-    const messageId = message.message_id;
 
     const answerResponse = await fetch(`https://api.telegram.org/bot${botToken}/answerCallbackQuery`, {
       method: "POST",
