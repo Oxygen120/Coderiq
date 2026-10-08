@@ -103,6 +103,9 @@ export default async function handler(req, res) {
             [
               { text: "📞 Mark Contacted", callback_data: "contacted:" + (safeTicketId || "N/A") },
               { text: "🟡 Mark Reviewed", callback_data: "reviewed:" + (safeTicketId || "N/A") }
+            ],
+            [
+              { text: "⚫ Close Lead", callback_data: "closed:" + (safeTicketId || "N/A") }
             ]
           ]
         }
