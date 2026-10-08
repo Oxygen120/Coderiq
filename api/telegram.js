@@ -34,8 +34,8 @@ export default async function handler(req, res) {
         reply_markup: {
           inline_keyboard: [
             [
-              { text: "📞 Contact", url: phone ? "tel:" + phone : "https://coderiq.in" },
-              { text: "📧 Email", url: email ? "mailto:" + email : "https://coderiq.in" }
+              { text: "📞 Contact", callback_data: "contact:" + (phone || "No Number") },
+              { text: "📧 Email", callback_data: "email:" + (email || "No Email") }
             ],
             [
               { text: "✅ Mark Reviewed", callback_data: "reviewed:" + (ticket_id || "N/A") }
