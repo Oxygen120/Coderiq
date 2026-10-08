@@ -4,7 +4,36 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, email, phone, project_type, budget, deadline, message, ticket_id } = req.body || {};
+    const contentType = String(req.headers["content-type"] || "");
+    if (!contentType.toLowerCase().includes("application/json")) {
+      return res.status(415).json({ success: false, error: "JSON required" });
+    }
+
+    const body = req.body || {};
+    const { name, email, phone, project_type, budget, deadline, message, ticket_id } = body;
+
+    const clean = (value, max = 500) => String(value ?? "").trim().slice(0, max);
+    const lead = {
+      name: clean(name, 100),
+      email: clean(email, 160),
+      phone: clean(phone, 30),
+      project_type: clean(project_type, 100),
+      budget: clean(budget, 100),
+      deadline: clean(deadline, 100),
+      message: clean(message, 2000),
+      ticket_id: clean(ticket_id, 80)
+    };
+
+    if (!lead.ticket_id || lead.ticket_id.length > 80) {
+      return res.status(400).json({ success: false, error: "Invalid inquiry" });
+    }
+
+    const allowedOrigin = req.headers.origin || req.headers.referer || "";
+    if (allowedOrigin && !String(allowedOrigin).startsWith("https://coderiq.in")) {
+      return res.status(403).json({ success: false, error: "Origin not allowed" });
+    }
+
+    const { name: safeName, email: safeEmail, phone: safePhone, project_type: safeProjectType, budget: safeBudget, deadline: safeDeadline, message: safeMessage, ticket_id: safeTicketId } = lead;
     const botToken = process.env.TELEGRAM_BOT_TOKEN;
     const chatId = "752458612";
 
@@ -14,17 +43,17 @@ export default async function handler(req, res) {
 
     const text =
       `🚀 *New Lead: CoderIQ.IN*\n\n` +
-      `👤 *Name:* ${name || "Client"}\n` +
-      `📧 *Email:* ${email || "No Email"}\n` +
-      `📞 *Phone:* ${phone || "No Number"}\n` +
-      `💻 *Project Type:* ${project_type || "Not specified"}\n` +
-      `💰 *Budget:* ${budget || "Not specified"}\n` +
-      `⏱️ *Timeline:* ${deadline || "Not specified"}\n` +
-      `📝 *Message:* ${message || "No Message"}\n` +
-      `🎫 *Ticket ID:* ${ticket_id || "N/A"}\n` +
+      `👤 *Name:* ${safeName || "Client"}\n` +
+      `📧 *Email:* ${safeEmail || "No Email"}\n` +
+      `📞 *Phone:* ${safePhone || "No Number"}\n` +
+      `💻 *Project Type:* ${safeProjectType || "Not specified"}\n` +
+      `💰 *Budget:* ${safeBudget || "Not specified"}\n` +
+      `⏱️ *Timeline:* ${safeDeadline || "Not specified"}\n` +
+      `📝 *Message:* ${safeMessage || "No Message"}\n` +
+      `🎫 *Ticket ID:* ${safeTicketId || "N/A"}\n` +
       `🟡 *Status:* NEW`;
 
-    const phoneDigits = String(phone || "").replace(/\D/g, "");
+    const phoneDigits = safePhone.replace(/\D/g, "");
     const whatsappPhone =
       phoneDigits.length === 10
         ? "91" + phoneDigits
@@ -32,17 +61,17 @@ export default async function handler(req, res) {
 
     const whatsappFields = [];
 
-    if (ticket_id) whatsappFields.push(`🎫 *Inquiry ID:* ${ticket_id}`);
-    if (project_type) whatsappFields.push(`💻 *Project:* ${project_type}`);
-    if (budget) whatsappFields.push(`💰 *Budget:* ${budget}`);
-    if (deadline) whatsappFields.push(`⏱️ *Timeline:* ${deadline}`);
+    if (safeTicketId) whatsappFields.push(`🎫 *Inquiry ID:* ${safeTicketId}`);
+    if (safeProjectType) whatsappFields.push(`💻 *Project:* ${safeProjectType}`);
+    if (safeBudget) whatsappFields.push(`💰 *Budget:* ${safeBudget}`);
+    if (safeDeadline) whatsappFields.push(`⏱️ *Timeline:* ${safeDeadline}`);
 
     const whatsappDetails = whatsappFields.length
       ? whatsappFields.join("\n") + "\n\n"
       : "";
 
     const whatsappMessage =
-      `Hello ${name || "there"},\n\n` +
+      `Hello ${safeName || "there"},\n\n` +
       `This is *CoderIQ* regarding your recent project inquiry.\n\n` +
       whatsappDetails +
       `We’ve received your requirements and would be happy to discuss your project further.\n\n` +
@@ -69,10 +98,11 @@ export default async function handler(req, res) {
               whatsappUrl
                 ? { text: "💬 WhatsApp Contact", url: whatsappUrl }
                 : { text: "💬 WhatsApp Contact", callback_data: "contact:No valid phone number" },
-              { text: "📧 Email", callback_data: "email:" + (email || "No Email") }
+              { text: "📧 Email", callback_data: "email:" + (safeEmail || "No Email") }
             ],
             [
-              { text: "✅ Mark Reviewed", callback_data: "reviewed:" + (ticket_id || "N/A") }
+              { text: "📞 Mark Contacted", callback_data: "contacted:" + (safeTicketId || "N/A") },
+              { text: "🟡 Mark Reviewed", callback_data: "reviewed:" + (safeTicketId || "N/A") }
             ]
           ]
         }
