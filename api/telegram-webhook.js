@@ -46,6 +46,15 @@ export default async function handler(req, res) {
       .replace(/🟡 \\*Status:\\* NEW/g, "🟢 *Status:* REVIEWED")
       .replace(/\\n🟡 \\*Status:\\* NEW/g, "\\n🟢 *Status:* REVIEWED");
 
+    const currentKeyboard = message.reply_markup?.inline_keyboard || [];
+    const updatedKeyboard = currentKeyboard.map(row =>
+      row.map(button =>
+        button.callback_data?.startsWith("reviewed:")
+          ? { text: "🟢 Reviewed", callback_data: "reviewed:" + ticketId }
+          : button
+      )
+    );
+
     const editResponse = await fetch(`https://api.telegram.org/bot${botToken}/editMessageText`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -54,16 +63,7 @@ export default async function handler(req, res) {
         message_id: messageId,
         text: newText,
         parse_mode: "Markdown",
-        reply_markup: {
-          inline_keyboard: [
-            [
-              { text: "📞 Contact", url: "tel:" + (message.entities?.find(() => false) ? "" : "") }
-            ],
-            [
-              { text: "🟢 Reviewed", callback_data: "reviewed:" + ticketId }
-            ]
-          ]
-        }
+        reply_markup: { inline_keyboard: updatedKeyboard }
       })
     });
 
