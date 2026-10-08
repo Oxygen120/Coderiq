@@ -635,6 +635,7 @@
 
             emailjs.send('service_ln9l0th', 'template_4myhwtk', templateParams)
             .then(function() {
+                const botToken = ""; // Telegram token will be supplied securely via backend environment variables.
                 const chatId = "752458612";
                 const tgMsg = `🚀 *New Lead: CoderIQ.IN*%0A%0A` +
                               `👤 *Name:* ${templateParams.name}%0A` +
