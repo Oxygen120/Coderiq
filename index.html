@@ -635,16 +635,13 @@
 
             emailjs.send('service_ln9l0th', 'template_4myhwtk', templateParams)
             .then(function() {
-                const botToken = ""; // Telegram token will be supplied securely via backend environment variables.
-                const chatId = "752458612";
-                const tgMsg = `🚀 *New Lead: CoderIQ.IN*%0A%0A` +
-                              `👤 *Name:* ${templateParams.name}%0A` +
-                              `📧 *Email:* ${templateParams.email}%0A` +
-                              `📞 *Phone:* ${templateParams.phone}%0A` +
-                              `📝 *Message:* ${templateParams.message}%0A` +
-                              `🎫 *Ticket ID:* ${templateParams.ticket_id}`;
-                
-                fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${tgMsg}&parse_mode=Markdown`);
+                fetch("/api/telegram", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(templateParams)
+                }).catch(function(error) {
+                    console.error("Telegram notification failed:", error);
+                });
 
                 if(typeof toggleModal === "function") toggleModal();
                 document.getElementById('display-ticket').innerHTML = ticketId;
