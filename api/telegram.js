@@ -24,6 +24,30 @@ export default async function handler(req, res) {
       `🎫 *Ticket ID:* ${ticket_id || "N/A"}\n` +
       `🟡 *Status:* NEW`;
 
+    const phoneDigits = String(phone || "").replace(/\D/g, "");
+    const whatsappPhone =
+      phoneDigits.length === 10
+        ? "91" + phoneDigits
+        : phoneDigits;
+
+    const whatsappMessage =
+      `Hello ${name || "there"},\n\n` +
+      `This is *CoderIQ* regarding your recent project inquiry.\n\n` +
+      `🎫 *Inquiry ID:* ${ticket_id || "N/A"}\n` +
+      `💻 *Project:* ${project_type || "Not specified"}\n` +
+      `💰 *Budget:* ${budget || "Not specified"}\n` +
+      `⏱️ *Timeline:* ${deadline || "Not specified"}\n\n` +
+      `We’ve received your requirements and would be happy to discuss your project further.\n\n` +
+      `Please let us know a convenient time to connect.\n\n` +
+      `*Regards,*\n` +
+      `*CoderIQ.IN*\n` +
+      `Web • Apps • Digital Solutions`;
+
+    const whatsappUrl =
+      whatsappPhone.length >= 10
+        ? `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(whatsappMessage)}`
+        : null;
+
     const telegramResponse = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -34,7 +58,9 @@ export default async function handler(req, res) {
         reply_markup: {
           inline_keyboard: [
             [
-              { text: "📞 Contact", callback_data: "contact:" + (phone || "No Number") },
+              whatsappUrl
+                ? { text: "💬 WhatsApp Contact", url: whatsappUrl }
+                : { text: "💬 WhatsApp Contact", callback_data: "contact:No valid phone number" },
               { text: "📧 Email", callback_data: "email:" + (email || "No Email") }
             ],
             [
