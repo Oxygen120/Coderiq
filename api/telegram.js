@@ -28,10 +28,20 @@ export default async function handler(req, res) {
       return res.status(400).json({ success: false, error: "Invalid inquiry" });
     }
 
-    const allowedOrigin = req.headers.origin || req.headers.referer || "";
-    if (allowedOrigin && !String(allowedOrigin).startsWith("https://coderiq.in")) {
+    const requestOrigin = String(req.headers.origin || "");
+    if (requestOrigin && requestOrigin !== "https://coderiq.in" && requestOrigin !== "https://www.coderiq.in") {
       return res.status(403).json({ success: false, error: "Origin not allowed" });
     }
+
+    const forwardedFor = String(req.headers["x-forwarded-for"] || "");
+    const clientIp = forwardedFor.split(",")[0].trim() || "unknown";
+    globalThis.__coderIqRateLimit = globalThis.__coderIqRateLimit || new Map();
+    const now = Date.now();
+    const previous = globalThis.__coderIqRateLimit.get(clientIp) || 0;
+    if (now - previous < 15000) {
+      return res.status(429).json({ success: false, error: "Too many requests" });
+    }
+    globalThis.__coderIqRateLimit.set(clientIp, now);
 
     const { name: safeName, email: safeEmail, phone: safePhone, project_type: safeProjectType, budget: safeBudget, deadline: safeDeadline, message: safeMessage, ticket_id: safeTicketId } = lead;
     const botToken = process.env.TELEGRAM_BOT_TOKEN;
