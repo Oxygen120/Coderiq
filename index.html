@@ -732,20 +732,20 @@
         contactForm.addEventListener("submit", function(e) {
             e.preventDefault();
             const btn = document.getElementById("submit-btn");
+            const formData = new FormData(contactForm);
             const now = new Date();
             const pad = (n) => String(n).padStart(2, "0");
             const datePart = pad(now.getDate()) + pad(now.getMonth() + 1) + String(now.getFullYear()).slice(-2);
             const timePart = pad(now.getHours()) + pad(now.getMinutes());
             const clientName = String(formData.get("name") || "Client").trim();
-            const initials = clientName.split(/\\s+/).filter(Boolean).slice(0, 2).map(part => part[0]).join("").toUpperCase() || "CL";
-            const phoneDigits = String(formData.get("phone") || "").replace(/\\D/g, "");
+            const initials = clientName.split(/\s+/).filter(Boolean).slice(0, 2).map(part => part[0]).join("").toUpperCase() || "CL";
+            const phoneDigits = String(formData.get("phone") || "").replace(/\D/g, "");
             const lastFour = phoneDigits.slice(-4).padStart(4, "0");
             const ticketId = "CID-" + datePart + "-" + timePart + "-" + initials + "-" + lastFour;
             
             btn.innerHTML = "GENERATING TICKET...";
             btn.disabled = true;
 
-            const formData = new FormData(contactForm);
             const templateParams = {
                 name: formData.get("name") || "Client",
                 email: formData.get("email") || "No Email",
