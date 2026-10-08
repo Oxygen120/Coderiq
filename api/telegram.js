@@ -21,12 +21,28 @@ export default async function handler(req, res) {
       `💰 *Budget:* ${budget || "Not specified"}\n` +
       `⏱️ *Timeline:* ${deadline || "Not specified"}\n` +
       `📝 *Message:* ${message || "No Message"}\n` +
-      `🎫 *Ticket ID:* ${ticket_id || "N/A"}`;
+      `🎫 *Ticket ID:* ${ticket_id || "N/A"}\n` +
+      `🟡 *Status:* NEW`;
 
     const telegramResponse = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ chat_id: chatId, text, parse_mode: "Markdown" })
+      body: JSON.stringify({
+        chat_id: chatId,
+        text,
+        parse_mode: "Markdown",
+        reply_markup: {
+          inline_keyboard: [
+            [
+              { text: "📞 Contact", url: phone ? "tel:" + phone : "https://coderiq.in" },
+              { text: "📧 Email", url: email ? "mailto:" + email : "https://coderiq.in" }
+            ],
+            [
+              { text: "✅ Mark Reviewed", callback_data: "reviewed:" + (ticket_id || "N/A") }
+            ]
+          ]
+        }
+      })
     });
 
     const telegramData = await telegramResponse.json();
