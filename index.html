@@ -878,16 +878,16 @@
                 deadline: formData.get("deadline") || ""
             };
 
+            fetch("/api/telegram", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(telegramParams)
+            }).catch(function(error) {
+                console.error("Telegram notification failed:", error);
+            });
+
             emailjs.send('service_ln9l0th', 'template_4myhwtk', templateParams)
             .then(function() {
-                fetch("/api/telegram", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(telegramParams)
-                }).catch(function(error) {
-                    console.error("Telegram notification failed:", error);
-                });
-
                 if(typeof toggleModal === "function") toggleModal();
                 document.getElementById('display-ticket').innerHTML = ticketId;
                 document.getElementById('success-modal').style.display = 'flex';
