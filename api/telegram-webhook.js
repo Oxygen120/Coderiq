@@ -41,18 +41,26 @@ export default async function handler(req, res) {
       return res.status(200).json({ ok: true });
     }
 
-    if (!data.startsWith("reviewed:")) {
+    const statusMatch = data.match(/^(contacted|reviewed|closed):(.*)$/);
+    if (!statusMatch) {
       return res.status(200).json({ ok: true });
     }
 
-    const ticketId = data.slice("reviewed:".length);
+    const statusKey = statusMatch[1];
+    const ticketId = statusMatch[2];
+    const statusMap = {
+      contacted: { label: "CONTACTED", icon: "🔵", button: "🔵 Contacted" },
+      reviewed: { label: "REVIEWED", icon: "🟢", button: "🟢 Reviewed" },
+      closed: { label: "CLOSED", icon: "⚫", button: "⚫ Closed" }
+    };
+    const status = statusMap[statusKey];
 
     const answerResponse = await fetch(`https://api.telegram.org/bot${botToken}/answerCallbackQuery`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         callback_query_id: callbackId,
-        text: `Marked ${ticketId} as reviewed`,
+        text: `Marked ${ticketId} as ${status.label.toLowerCase()}`,
         show_alert: false
       })
     });
@@ -62,15 +70,20 @@ export default async function handler(req, res) {
     }
 
     const oldText = message.text || "";
-    const newText = oldText
-      .replace(/🟡 \\*Status:\\* NEW/g, "🟢 *Status:* REVIEWED")
-      .replace(/\\n🟡 \\*Status:\\* NEW/g, "\\n🟢 *Status:* REVIEWED");
+    const newText = oldText.replace(
+      /(?:🟡|🔵|🟢|⚫) \\*Status:\\* (?:NEW|CONTACTED|REVIEWED|CLOSED)/,
+      status.icon + " *Status:* " + status.label
+    );
 
     const currentKeyboard = message.reply_markup?.inline_keyboard || [];
     const updatedKeyboard = currentKeyboard.map(row =>
       row.map(button =>
-        button.callback_data?.startsWith("reviewed:")
-          ? { text: "🟢 Reviewed", callback_data: "reviewed:" + ticketId }
+        button.callback_data?.startsWith("contacted:")
+          ? { text: statusKey === "contacted" ? status.button : "📞 Mark Contacted", callback_data: "contacted:" + ticketId }
+          : button.callback_data?.startsWith("reviewed:")
+          ? { text: statusKey === "reviewed" ? status.button : "🟡 Mark Reviewed", callback_data: "reviewed:" + ticketId }
+          : button.callback_data?.startsWith("closed:")
+          ? { text: statusKey === "closed" ? status.button : "⚫ Close Lead", callback_data: "closed:" + ticketId }
           : button
       )
     );
