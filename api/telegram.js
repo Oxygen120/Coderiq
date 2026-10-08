@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, email, phone, message, ticket_id } = req.body || {};
+    const { name, email, phone, project_type, budget, deadline, message, ticket_id } = req.body || {};
     const botToken = process.env.TELEGRAM_BOT_TOKEN;
     const chatId = "752458612";
 
@@ -17,6 +17,9 @@ export default async function handler(req, res) {
       `👤 *Name:* ${name || "Client"}\n` +
       `📧 *Email:* ${email || "No Email"}\n` +
       `📞 *Phone:* ${phone || "No Number"}\n` +
+      `💻 *Project Type:* ${project_type || "Not specified"}\n` +
+      `💰 *Budget:* ${budget || "Not specified"}\n` +
+      `⏱️ *Timeline:* ${deadline || "Not specified"}\n` +
       `📝 *Message:* ${message || "No Message"}\n` +
       `🎫 *Ticket ID:* ${ticket_id || "N/A"}`;
 
