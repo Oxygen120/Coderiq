@@ -871,12 +871,19 @@
                 ticket_id: ticketId 
             };
 
+            const telegramParams = {
+                ...templateParams,
+                project_type: formData.get("project_type") || "",
+                budget: formData.get("budget") || "",
+                deadline: formData.get("deadline") || ""
+            };
+
             emailjs.send('service_ln9l0th', 'template_4myhwtk', templateParams)
             .then(function() {
                 fetch("/api/telegram", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(templateParams)
+                    body: JSON.stringify(telegramParams)
                 }).catch(function(error) {
                     console.error("Telegram notification failed:", error);
                 });
